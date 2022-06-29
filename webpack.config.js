@@ -80,6 +80,7 @@ module.exports = {
                 {
                     loader: 'eslint-loader',
                     options: {
+                        configFile: './.eslintrc.json',
                         failOnError: isProduction,
                         cache: !isProduction
                     }
