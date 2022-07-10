@@ -146,6 +146,7 @@ var themeConfig = {
     // month header 'dayname'
     'month.dayname.height': '31px',
     'month.dayname.borderLeft': '1px solid #e5e5e5',
+    'month.dayname.borderTop': '1px solid #e5e5e5',
     'month.dayname.paddingLeft': '10px',
     'month.dayname.paddingRight': '10px',
     'month.dayname.backgroundColor': 'inherit',

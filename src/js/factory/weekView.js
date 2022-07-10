@@ -229,7 +229,7 @@ module.exports = function(baseController, layoutContainer, dragHandler, options,
             weekView.render();
         });
     });
-
+    console.log('init weekView');
     // binding create schedules event
     if (options.useCreationPopup) {
         createView = new ScheduleCreationPopup(layoutContainer, baseController.calendars, options.usageStatistics);
@@ -260,6 +260,7 @@ module.exports = function(baseController, layoutContainer, dragHandler, options,
         detailView = new ScheduleDetailPopup(layoutContainer);
         onShowDetailPopup = function(eventData) {
             var scheduleId = eventData.schedule.calendarId;
+            console.log('in to on onShowDetailPopup', eventData);
             eventData.calendar = common.find(baseController.calendars, function(calendar) {
                 return calendar.id === scheduleId;
             });

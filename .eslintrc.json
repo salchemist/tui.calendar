@@ -6,6 +6,7 @@
         "moment": true
     },
     "rules": {
-        "linebreak-style": [0,"windows"]
+        "linebreak-style": [0,"windows"],
+        "no-debugger":1
     }
 }

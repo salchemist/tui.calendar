@@ -3,7 +3,6 @@
   "author": "NHN Cloud. FE Development Lab <dl_javascript@nhn.com>",
   "version": "1.15.3",
   "main": "dist/tui-calendar.js",
-
   "types": "index.d.ts",
   "license": "MIT",
   "description": "TOAST UI Calendar",

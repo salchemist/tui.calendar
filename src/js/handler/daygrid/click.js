@@ -74,6 +74,7 @@ DayGridClick.prototype._onClick = function(clickEvent) {
         ),
         containsTarget = this.view.container.contains(target);
     var blockElement, scheduleElement;
+    console.log('daygrid click ', clickEvent);
 
     if (!containsTarget) {
         return;

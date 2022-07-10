@@ -64,3 +64,4 @@ markup
 
 # performance tester fixtures
 perf/**/*.json
+dist

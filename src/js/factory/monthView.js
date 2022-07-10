@@ -147,7 +147,7 @@ function createMonthView(baseController, layoutContainer, dragHandler, options) 
         onEditSchedule = function(eventData) {
             moveHandler.fire('beforeUpdateSchedule', eventData);
         };
-
+        // todo:这里是事件触发点
         clickHandler.on('clickSchedule', onShowDetailPopup);
 
         detailView.on('beforeDeleteSchedule', onDeleteSchedule);

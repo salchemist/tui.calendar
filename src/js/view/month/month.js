@@ -198,6 +198,7 @@ Month.prototype.render = function() {
         grids,
         daynameViewModel,
         baseViewModel;
+    console.log('theme ', theme);
 
     grids = this.grids = datetime.getGridLeftAndWidth(
         opt.daynames.length,
