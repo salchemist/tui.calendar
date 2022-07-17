@@ -16,6 +16,9 @@ const banner = [
 export default defineConfig(() => {
   return {
     build: {
+      watch: {
+        buildDelay: 200,
+      },
       emptyOutDir: false,
       lib: {
         entry: path.resolve(__dirname, 'src/index.ts'),

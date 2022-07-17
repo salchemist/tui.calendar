@@ -32,7 +32,7 @@ interface Props {
 function getMargins(flat: boolean) {
   return {
     vertical: flat ? 5 : 2,
-    horizontal: 8,
+    horizontal: 0,
   };
 }
 
@@ -67,7 +67,7 @@ function getEventItemStyle({
     overflow: 'hidden',
     height: eventHeight,
     lineHeight: toPx(eventHeight),
-    opacity: isDraggingTarget ? 0.5 : 1,
+    opacity: isDraggingTarget ? 0.3 : 1,
   };
   const margins = getMargins(flat);
 
