@@ -104,6 +104,11 @@ export interface EventObject {
   attendees?: string[];
 
   /**
+   * noDot
+   */
+  noDot?: boolean;
+
+  /**
    * Category of the event (milestone, task, allday, time)
    */
   category?: EventCategory;

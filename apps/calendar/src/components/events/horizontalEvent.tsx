@@ -226,6 +226,7 @@ export function HorizontalEvent({
     !isDraggingTarget &&
     currentView === 'month' &&
     uiModel.model.category === 'time' &&
+    uiModel.model.noDot !== true  &&
     isSameDate(uiModel.model.start, uiModel.model.end);
   const shouldHideResizeHandler =
     !isDraggableEvent || flat || isDraggingTarget || uiModel.exceedRight;

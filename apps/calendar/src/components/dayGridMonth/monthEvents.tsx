@@ -24,7 +24,6 @@ export const MonthEvents = memo(function MonthEvents({
   className,
 }: Props) {
   const { headerHeight } = useTheme(monthGridCellSelector);
-
   const dayEvents = events
     .filter(isWithinHeight(contentAreaHeight, eventHeight + MONTH_EVENT_MARGIN_TOP))
     .map((uiModel) => (

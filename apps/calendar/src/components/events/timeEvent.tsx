@@ -218,6 +218,7 @@ export function TimeEvent({
     onDragStart: () => {
       if (isDraggable) {
         startDragEvent(classNames.moveEvent);
+        eventBus.fire('startDragEvent', { event:uiModel.model.toEventObject() });
       }
     },
     onMouseUp: (e, { draggingState }) => {

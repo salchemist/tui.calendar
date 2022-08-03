@@ -3,7 +3,6 @@ const defaultExtends = [
   'prettier',
   'plugin:@typescript-eslint/recommended',
   'plugin:react/recommended',
-  'plugin:prettier/recommended',
 ];
 
 module.exports = {

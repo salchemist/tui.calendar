@@ -141,6 +141,14 @@ export default class EventUIModel implements EventUIProps {
   duplicateStarts?: TZDate;
 
   /**
+   * represent the start date of a group of duplicate events.
+   *
+   * the earliest value among the duplicate events' starts and going durations.
+   * @type {TZDate}
+   */
+  noDot?: boolean;
+
+  /**
    * represent the end date of a group of duplicate events.
    *
    * the latest value among the duplicate events' ends and coming durations.

@@ -71,6 +71,8 @@ export default class EventModel implements Omit<EventObjectWithDefaultValues, '_
    */
   hasMultiDates = false;
 
+  noDot = true;
+
   constructor(event: EventObject = {}) {
     // initialize model id
     stamp(this);
@@ -103,6 +105,7 @@ export default class EventModel implements Omit<EventObjectWithDefaultValues, '_
     isPending = false,
     isFocused = false,
     isReadOnly = false,
+    noDot = false,
     isPrivate = false,
     color,
     backgroundColor,
@@ -124,6 +127,7 @@ export default class EventModel implements Omit<EventObjectWithDefaultValues, '_
     this.dueDateClass = dueDateClass;
     this.recurrenceRule = recurrenceRule;
     this.state = state;
+    this.noDot = noDot;
     this.isVisible = isVisible;
     this.isPending = isPending;
     this.isFocused = isFocused;
@@ -204,7 +208,7 @@ export default class EventModel implements Omit<EventObjectWithDefaultValues, '_
   }
 
   /**
-   * Check two  are equals (means title, isAllday, start, end are same)
+   * Check two are equals (means title, isAllday, start, end are same)
    * @param {EventModel}  event model instance to compare.
    * @returns {boolean} Return false when not same.
    */
@@ -307,6 +311,7 @@ export default class EventModel implements Omit<EventObjectWithDefaultValues, '_
       body: this.body,
       isAllday: this.isAllday,
       start: this.start,
+      noDot: this.noDot,
       end: this.end,
       goingDuration: this.goingDuration,
       comingDuration: this.comingDuration,
