@@ -31,6 +31,9 @@ export interface WeekOptions {
   taskView?: boolean | TaskView[];
   collapseDuplicateEvents?: boolean | Partial<CollapseDuplicateEventsOptions>;
 }
+export interface ComparatorOptions extends WeekOptions{
+
+}
 
 export interface MonthOptions {
   dayNames?: [string, string, string, string, string, string, string] | [];
@@ -70,13 +73,14 @@ export interface CalendarInfo extends CalendarColor {
   name: string;
 }
 
-export type ViewType = 'month' | 'week' | 'day';
+export type ViewType = 'month' | 'week' | 'day'| 'dayComparator';
 
 export interface Options {
   defaultView?: ViewType;
   theme?: DeepPartial<ThemeState>;
   template?: TemplateConfig;
   week?: WeekOptions;
+  comparator?: ComparatorOptions;
   month?: MonthOptions;
   calendars?: CalendarInfo[];
   useFormPopup?: boolean;

@@ -96,10 +96,10 @@ function getStyles({
     top: toPercent(top),
     left: duplicateLeft || toPercent(left),
     borderRadius,
-    borderLeft: `3px solid ${borderColor}`,
+    borderLeft: `3px solid ${isDraggingTarget ? borderColor : dragBackgroundColor}`,
     marginLeft,
     color,
-    backgroundColor: isDraggingTarget ? dragBackgroundColor : backgroundColor,
+    backgroundColor: isDraggingTarget ? backgroundColor : dragBackgroundColor,
     opacity: isDraggingTarget ? 0.5 : 1,
     zIndex: hasNextStartTime ? 1 : 0,
   };
@@ -217,6 +217,7 @@ export function TimeEvent({
   const onMoveStart = useDrag(DRAGGING_TYPE_CREATORS.moveEvent('timeGrid', `${uiModel.cid()}`), {
     onDragStart: () => {
       if (isDraggable) {
+        eventBus.fire('startDrag', { event: uiModel.model.toEventObject() });
         startDragEvent(classNames.moveEvent);
         eventBus.fire('startDragEvent', { event:uiModel.model.toEventObject() });
       }

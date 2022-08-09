@@ -297,6 +297,7 @@ export function setRenderInfoOfUIModels(
   selectedDuplicateEventCid: number,
   collapseDuplicateEventsOptions?: CollapseDuplicateEventsOptions
 ) {
+  // todo:add sorted by the event raw data
   const uiModels: EventUIModel[] = events
     .filter(isTimeEvent)
     .filter(isBetween(startColumnTime, endColumnTime))

@@ -3,7 +3,13 @@ import type { CalendarState } from '@t/store';
 export function topLevelStateSelector<State, Group extends keyof State>(
   group: Group
 ): (state: State) => State[Group] {
-  return (state: State) => state[group];
+
+
+  return (state: State) => {
+    console.log('topLevelStateSelector ',state)
+
+    return state[group]
+  };
 }
 
 export const popupSelector = topLevelStateSelector<CalendarState, 'popup'>('popup');

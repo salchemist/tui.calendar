@@ -68,6 +68,7 @@ export function TimeGrid({ timeGridData, events }: Props) {
   } | null>(null);
 
   const { columns, rows } = timeGridData;
+
   const lastColumnIndex = columns.length - 1;
 
   const totalUIModels = useMemo(

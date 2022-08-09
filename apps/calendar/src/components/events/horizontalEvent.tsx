@@ -32,7 +32,7 @@ interface Props {
 function getMargins(flat: boolean) {
   return {
     vertical: flat ? 5 : 2,
-    horizontal: 0,
+    horizontal: 4,
   };
 }
 

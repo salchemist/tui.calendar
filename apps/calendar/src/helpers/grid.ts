@@ -34,7 +34,7 @@ import type { MonthOptions, WeekOptions } from '@t/options';
 import type { Panel } from '@t/panel';
 import type { FormattedTimeString } from '@t/time/datetime';
 
-export const EVENT_HEIGHT = 22;
+export const EVENT_HEIGHT = 18;
 export const TOTAL_WIDTH = 100;
 
 function forEachMatrix3d<T>(matrices: Matrix3d<T>, iteratee: (target: T, index?: number) => void) {
@@ -108,14 +108,12 @@ export function getWidth(widthList: number[], start: number, end: number) {
   }, 0);
 }
 
-export const isInGrid = (gridDate: TZDate) => {
-  return (uiModel: EventUIModel) => {
+export const isInGrid = (gridDate: TZDate) => (uiModel: EventUIModel) => {
     const eventStart = toStartOfDay(uiModel.getStarts());
     const eventEnd = toStartOfDay(uiModel.getEnds());
 
     return eventStart <= gridDate && gridDate <= eventEnd;
   };
-};
 
 export function getGridDateIndex(date: TZDate, row: TZDate[]) {
   return row.findIndex((cell) => date >= toStartOfDay(cell) && date <= toEndOfDay(cell));
@@ -360,6 +358,7 @@ export function getWeekDates(
   renderDate: TZDate,
   { startDayOfWeek = Day.SUN, workweek }: WeekOptions
 ): TZDate[] {
+  // todo:add filter by raw creator
   const now = toStartOfDay(renderDate);
   const nowDay = now.getDay();
   const prevDateCount = nowDay - startDayOfWeek;
@@ -369,6 +368,25 @@ export function getWeekDates(
       ? range(-prevDateCount, WEEK_DAYS - prevDateCount)
       : range(-WEEK_DAYS - prevDateCount, -prevDateCount);
 
+  return weekDayList.reduce<TZDate[]>((acc, day) => {
+    const date = addDate(now, day);
+
+    if (workweek && isWeekend(date.getDay())) {
+      return acc;
+    }
+    acc.push(date);
+
+    return acc;
+  }, []);
+}
+export function getComparatorDate(
+  renderDate: TZDate,
+  { startDayOfWeek = Day.SUN, workweek }: WeekOptions
+): TZDate[] {
+  // todo:add filter by raw creator
+  const now = toStartOfDay(renderDate);
+
+  const weekDayList = [0]
   return weekDayList.reduce<TZDate[]>((acc, day) => {
     const date = addDate(now, day);
 
