@@ -6,7 +6,7 @@ export const MONTH_DAY_NAME_HEIGHT = 31;
 
 // month event
 export const MONTH_EVENT_BORDER_RADIUS = 2;
-export const MONTH_EVENT_HEIGHT = 24;
+export const MONTH_EVENT_HEIGHT = 16;
 export const MONTH_EVENT_MARGIN_TOP = 2;
 export const MONTH_EVENT_MARGIN_LEFT = 8;
 export const MONTH_EVENT_MARGIN_RIGHT = 8;
