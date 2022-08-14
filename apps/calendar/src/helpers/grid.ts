@@ -29,6 +29,8 @@ import type {
   TimeGridEventMatrix,
 } from '@t/events';
 import type { CommonGridColumn, GridPositionFinder, TimeGridData } from '@t/grid';
+import type { ComparatorGridColumn } from "@t/grid";
+import type { TimeComparatorGridData } from "@t/grid";
 import type { ClientMousePosition } from '@t/mouse';
 import type { MonthOptions, WeekOptions } from '@t/options';
 import type { Panel } from '@t/panel';
@@ -432,6 +434,73 @@ export function getColumnsData(
 
       return result;
     }, []);
+}
+
+// @TODO: replace `getRowStyleInfo` to this function
+export function getCreatorColumnsData(
+  date:TZDate,
+  creators: string[], // 5 or 7 dates
+
+): ComparatorGridColumn[] {
+  const count = creators.length;
+
+  const defaultWidthByColumns = 100 / count;
+
+  return creators
+    .map((creator) => {
+      const width =defaultWidthByColumns;
+
+      return {
+        creatorName:creator,
+        width,
+      };
+    })
+    .reduce<ComparatorGridColumn[]>((result, currentCreatorAndWidth, index) => {
+      const prev = result[index - 1];
+
+      result.push({
+        date,
+        ...currentCreatorAndWidth,
+        left: index === 0 ? 0 : prev.left + prev.width,
+      });
+
+      return result;
+    }, []);
+}
+
+export function createCreatorGridData(
+  date: TZDate,
+  creators :string[],
+  options: {
+    hourStart: number;
+    hourEnd: number;
+    narrowWeekend?: boolean;
+  }
+): TimeComparatorGridData {
+  const columns = getCreatorColumnsData(date,creators);
+  const steps = (options.hourEnd - options.hourStart) * 2;
+  const baseHeight = 100 / steps;
+  const rows = range(steps).map((step, index) => {
+    const isOdd = index % 2 === 1;
+    const hour = options.hourStart + Math.floor(step / 2);
+    const startTime = `${hour}:${isOdd ? '30' : '00'}`.padStart(5, '0') as FormattedTimeString;
+    const endTime = (isOdd ? `${hour + 1}:00` : `${hour}:30`).padStart(
+      5,
+      '0'
+    ) as FormattedTimeString;
+
+    return {
+      top: baseHeight * index,
+      height: baseHeight,
+      startTime,
+      endTime,
+    };
+  });
+
+  return {
+    columns,
+    rows,
+  };
 }
 
 export function createTimeGridData(

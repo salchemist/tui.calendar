@@ -20,6 +20,9 @@ export interface CommonGridColumn {
   left: number;
   width: number;
 }
+export interface ComparatorGridColumn extends CommonGridColumn{
+ creatorName:string
+}
 
 export interface TimeGridRow {
   top: number;
@@ -31,6 +34,10 @@ export interface TimeGridRow {
 export interface TimeGridData {
   rows: TimeGridRow[];
   columns: CommonGridColumn[];
+}
+export interface TimeComparatorGridData {
+  rows: TimeGridRow[];
+  columns: ComparatorGridColumn[];
 }
 
 export type GridPositionFinder = (mousePosition: ClientMousePosition) => GridPosition | null;

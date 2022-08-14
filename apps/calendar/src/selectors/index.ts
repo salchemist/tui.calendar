@@ -6,8 +6,6 @@ export function topLevelStateSelector<State, Group extends keyof State>(
 
 
   return (state: State) => {
-    console.log('topLevelStateSelector ',state)
-
     return state[group]
   };
 }

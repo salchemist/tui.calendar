@@ -40,6 +40,15 @@ export interface TemplateWeekDayName {
   renderDate: string;
   dateInstance: TZDate;
 }
+export interface TemplateDayComparatorName {
+  date: number;
+  day: number;
+  dayName: string;
+  creatorName: string;
+  isToday: boolean;
+  renderDate: string;
+  dateInstance: TZDate;
+}
 
 export interface TemplateMonthDayName {
   day: number;

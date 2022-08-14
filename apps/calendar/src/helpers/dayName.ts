@@ -1,11 +1,11 @@
 import type EventModel from "@src/model/eventModel";
 import type TZDate from '@src/time/date';
 import type Collection from "@src/utils/collection";
-import { isBetween } from "@src/utils/math";
 import { capitalize } from '@src/utils/string';
 
 import type { WeekOptions } from '@t/options';
 import type { TemplateWeekDayName } from '@t/template';
+import type { TemplateDayComparatorName } from "@t/template";
 
 
 export const DEFAULT_DAY_NAMES = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
@@ -37,17 +37,17 @@ export function getDayNames(
 export function getCreatorNames(
   events: Collection<EventModel>,
   renderDate:TZDate
-) :TemplateWeekDayName[]{
-  const dayNames:TemplateWeekDayName[] = []
+) :TemplateDayComparatorName[]{
+  const dayNames:TemplateDayComparatorName[] = []
 
   const creators = events
-    .filter(event=>isBetween(renderDate.valueOf(),event.start.valueOf(),event.end.valueOf()))
     .groupBy(event=>event.raw.creator.name)
   Object.keys(creators).forEach(creator=>{
     dayNames.push( {
       date: renderDate.getDate(),
       day: renderDate.getDay(),
-      dayName:creator,
+      creatorName:creator,
+      dayName:renderDate.getDay().toString(),
       isToday: true,
       renderDate: 'date',
       dateInstance: renderDate,

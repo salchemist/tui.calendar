@@ -6,6 +6,7 @@ import { fill } from '@src/utils/array';
 import { InvalidDateTimeFormatError } from '@src/utils/error';
 
 import type { TimeUnit } from '@t/events';
+import type { TemplateDayComparatorName } from "@t/template";
 import type { CellStyle, FormattedTimeString } from '@t/time/datetime';
 
 export enum Day {
@@ -386,6 +387,46 @@ export function getRowStyleInfo(
       width = wideWidth / 2;
     }
 
+    const model = {
+      width,
+      left: accumulatedWidth,
+    };
+
+    accumulatedWidth += width;
+
+    return model;
+  });
+
+  const { length } = rowStyleInfo;
+  const cellWidthMap = fill(length, fill(length, 0));
+
+  rowStyleInfo.forEach(({ width }, index) => {
+    for (let i = 0; i <= index; i += 1) {
+      for (let j = index; j < length; j += 1) {
+        cellWidthMap[i][j] += width;
+      }
+    }
+  });
+
+  cellWidthMap[0][length - 1] = 100;
+
+  return {
+    rowStyleInfo,
+    cellWidthMap: cellWidthMap.map((widthList) => widthList.map(toPercent)),
+  };
+}
+/**
+ * Calculate grid left(%), width(%) by narrowWeekend, startDayOfWeek, workweek
+ */
+export function getCreatorRowStyleInfo(
+  creators: TemplateDayComparatorName[]
+): { rowStyleInfo: CellStyle[]; cellWidthMap: string[][] } {
+  const uniformWidth = 100 / creators.length;
+  let accumulatedWidth = 0;
+
+
+  const rowStyleInfo = creators.map((creator: TemplateDayComparatorName) => {
+    const width =uniformWidth;
     const model = {
       width,
       left: accumulatedWidth,

@@ -7,11 +7,11 @@ import { cls, toPercent } from '@src/helpers/css';
 
 import type { CalendarViewType } from '@t/components/common';
 import type { CalendarMonthOptions, CalendarWeekOptions } from '@t/store';
-import type { TemplateMonthDayName, TemplateWeekDayName } from '@t/template';
+import type { TemplateDayComparatorName, TemplateMonthDayName, TemplateWeekDayName } from "@t/template";
 import type { CommonTheme, MonthTheme, ThemeState, WeekTheme } from '@t/theme';
 import type { CellStyle } from '@t/time/datetime';
 
-type TemplateDayNames = (TemplateWeekDayName | TemplateMonthDayName)[];
+type TemplateDayNames = (  TemplateMonthDayName | TemplateWeekDayName |TemplateDayComparatorName)[];
 
 export type DayNameThemes = {
   common: {
@@ -33,6 +33,7 @@ export type DayNameThemes = {
 interface Props {
   type: CalendarViewType;
   dayNames: TemplateDayNames;
+  displayIndex:'day'|'creator',
   options?: CalendarMonthOptions | CalendarWeekOptions;
   marginLeft?: string;
   rowStyleInfo: CellStyle[];
@@ -71,13 +72,14 @@ function monthDayNameSelector(theme: ThemeState): DayNameThemes {
 export function GridHeader({
   dayNames,
   marginLeft = DEFAULT_DAY_NAME_MARGIN_LEFT,
+  displayIndex='day',
   rowStyleInfo,
   type = 'month',
 }: Props) {
   const theme = useTheme(type === 'month' ? monthDayNameSelector : weekDayNameSelector);
   const { backgroundColor = 'white', borderLeft = null, ...rest } = theme[type]?.dayName ?? {};
   const { borderTop = null, borderBottom = null } = rest as WeekTheme['dayName'];
-
+  const dayMode = displayIndex==='day'
   return (
     <div
       data-testid={`grid-header-${type}`}
@@ -89,10 +91,11 @@ export function GridHeader({
       }}
     >
       <div className={cls('day-name-container')} style={{ marginLeft }}>
-        {(dayNames as TemplateDayNames).map((dayName, index) => (
-          <DayName
+        {(dayNames as TemplateDayNames).map((dayName, index) => {
+          const key =`dayNames-${dayMode?dayName.day:dayName.creatorName}`
+          return <DayName
             type={type}
-            key={`dayNames-${dayName.day}`}
+            key={key}
             dayName={dayName}
             style={{
               width: toPercent(rowStyleInfo[index].width),
@@ -101,7 +104,7 @@ export function GridHeader({
             }}
             theme={theme}
           />
-        ))}
+        })}
       </div>
     </div>
   );

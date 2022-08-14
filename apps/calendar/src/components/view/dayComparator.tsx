@@ -6,14 +6,14 @@ import { AlldayGridRow } from '@src/components/dayGridWeek/alldayGridRow';
 import { OtherGridRow } from '@src/components/dayGridWeek/otherGridRow';
 import { Layout } from '@src/components/layout';
 import { Panel } from '@src/components/panel';
-import { TimeGrid } from '@src/components/timeGrid/timeGrid';
+import { TimeComparatorGrid } from "@src/components/timeGrid/timeComparatorGrid";
 import { TimezoneLabels } from '@src/components/timeGrid/timezoneLabels';
 import { WEEK_DAY_NAME_BORDER, WEEK_DAY_NAME_HEIGHT } from '@src/constants/style';
 import { useStore } from '@src/contexts/calendarStore';
 import { useTheme } from '@src/contexts/themeStore';
 import { cls } from '@src/helpers/css';
 import { getCreatorNames } from "@src/helpers/dayName";
-import { createTimeGridData, getComparatorDate, getWeekViewEvents } from "@src/helpers/grid";
+import { createCreatorGridData, getComparatorDate, getWeekViewEvents } from "@src/helpers/grid";
 import { getActivePanels } from '@src/helpers/view';
 import { useCalendarData } from '@src/hooks/calendar/useCalendarData';
 import { useDOMNode } from '@src/hooks/common/useDOMNode';
@@ -26,7 +26,7 @@ import {
   weekViewLayoutSelector,
 } from '@src/selectors';
 import { primaryTimezoneSelector } from '@src/selectors/timezone';
-import { addDate, getRowStyleInfo, toEndOfDay, toStartOfDay } from '@src/time/datetime';
+import { addDate, getCreatorRowStyleInfo, toEndOfDay, toStartOfDay } from "@src/time/datetime";
 import { first, last } from '@src/utils/array';
 
 import type { WeekOptions } from '@t/options';
@@ -61,17 +61,14 @@ export function DayComparator() {
   const calendarData = useCalendarData(calendar, options.eventFilter);
 
   const weekOptions = options.week as Required<WeekOptions>;
-
-  const { narrowWeekend, startDayOfWeek, workweek, hourStart, hourEnd, eventView, taskView } =
+  const narrowWeekend = false
+  const {  hourStart, hourEnd, eventView, taskView } =
     weekOptions;
   const date = useMemo(() => getComparatorDate(renderDate, weekOptions), [renderDate, weekOptions]);
-  const dayNames = getCreatorNames(calendarData.events,renderDate);
+  const creatorNames = getCreatorNames(calendarData.events,renderDate);
 
-  const { rowStyleInfo, cellWidthMap } = getRowStyleInfo(
-    date.length,
-    narrowWeekend,
-    startDayOfWeek,
-    workweek
+  const { rowStyleInfo, cellWidthMap } = getCreatorRowStyleInfo(
+    creatorNames
   );
   console.log('calendarData ',calendarData,rowStyleInfo,rowStyleInfo)
   const eventByPanel = useMemo(() => {
@@ -94,14 +91,15 @@ export function DayComparator() {
       weekEndDate,
     });
   }, [calendarData, hourEnd, hourStart, narrowWeekend, primaryTimezoneName, date]);
+  const names = creatorNames.map(creatorCol=>creatorCol.creatorName)
   const timeGridData = useMemo(
     () =>
-      createTimeGridData(date, {
+      createCreatorGridData(date[0],names, {
         hourStart,
         hourEnd,
         narrowWeekend,
       }),
-    [hourEnd, hourStart, narrowWeekend, date]
+    [hourEnd, hourStart, narrowWeekend,names, date]
   );
 
   const activePanels = getActivePanels(taskView, eventView);
@@ -150,7 +148,8 @@ export function DayComparator() {
       >
         <GridHeader
           type="week"
-          dayNames={dayNames}
+          displayIndex={'creator'}
+          dayNames={creatorNames}
           marginLeft={gridHeaderMarginLeft}
           options={weekOptions}
           rowStyleInfo={rowStyleInfo}
@@ -159,7 +158,7 @@ export function DayComparator() {
       {dayGridRows}
       {hasTimePanel ? (
         <Panel name="time" autoSize={1} ref={setTimePanelRef}>
-          <TimeGrid events={eventByPanel.time} timeGridData={timeGridData} />
+          <TimeComparatorGrid events={eventByPanel.time} timeGridData={timeGridData} />
           <TimezoneLabels top={stickyTop} />
         </Panel>
       ) : null}
