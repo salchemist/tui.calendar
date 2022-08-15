@@ -65,7 +65,7 @@ function VerticalEvents({
   minEventHeight: number;
 }) {
   // @TODO: use dynamic value
-  const style = { marginRight: 8 };
+  const style = { marginRight: 0 };
 
   return (
     <div className={classNames.events} style={style}>
